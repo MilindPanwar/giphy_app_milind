@@ -26,17 +26,18 @@ class SearchGiphyViewModel extends GetxController {
   RxSet<String> favorites = RxSet<String>();
 
   void callTrendingGiphyApi() async {
+
     if (isLoading.value) return;
 
     isLoading.value = true;
 
     try {
       final data = await api.getTrendingGiphy(
-          offset.value, AppConstants.giphyApiKey, 25);
+          offset.value, AppConstants.giphyApiKey, 50);
       final giphyList = data.response.data['data'];
 
       if (giphyList is Iterable) {
-        giphyData.addAll(giphyList);
+        giphyData.value= data.response.data['data'] ;
       } else {
         if (kDebugMode) {
           print("Error: Expected data.response.data['data'] to be an Iterable");
@@ -89,8 +90,6 @@ class SearchGiphyViewModel extends GetxController {
   }
 
   void loadMoreGifs() {
-
-
     try {
       if (searchQuery.isEmpty) {
         callTrendingGiphyApi();
@@ -101,7 +100,12 @@ class SearchGiphyViewModel extends GetxController {
       isLoading.value = false;
     }
   }
-
+  void setSearchQuery(String query) {
+    searchQuery.value = query;
+    offset.value = 0;
+    giphyData.clear();
+    hasMore.value = true;
+  }
   void addFavourite(String giphyKey) {
     if (favorites.contains(giphyKey)) {
       favorites.remove(giphyKey);

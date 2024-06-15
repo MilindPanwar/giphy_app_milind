@@ -93,7 +93,6 @@ class SearchGiphyScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   giphyController.giphyData.value = [];
-
                   Get.offAll(() => LoginScreen());
                 },
                 padding: EdgeInsets.zero,
@@ -115,7 +114,7 @@ class SearchGiphyScreen extends StatelessWidget {
               cursorColor: Colors.blueAccent,
               style: GoogleFonts.poppins(color: Colors.white),
               decoration: InputDecoration(
-                hintText: "Search the giphy",
+                hintText: "Type to Search and Press ENTER",
                 hintStyle: GoogleFonts.poppins(color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -134,18 +133,17 @@ class SearchGiphyScreen extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.blueGrey[700],
               ),
-              onChanged: (query) {
-                log(query);
-                if (query.isNotEmpty) {
-                  giphyController.callSearchGiphyApi(query);
-                } else {
-                  log('EMPTY NOW');
-                  giphyController.giphyData.value = [];
+              onSubmitted: (query) {
+                giphyController.setSearchQuery(query);
+                if (query.isEmpty) {
                   giphyController.callTrendingGiphyApi();
+                } else {
+                  giphyController.callSearchGiphyApi(query);
                 }
+
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(
