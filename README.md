@@ -33,6 +33,12 @@
 ## Screenshots & Video
 Google Drive Demo Video and Screenshots: https://drive.google.com/drive/folders/1WC0kqy73kkXVqqPf3pdol96Gfyo9zD47?usp=sharing
 
+## Features I Added
+
+- Implemented a LOGOUT button
+- Dark Theme UI
+- Added Beautifully neat pop-ups
+- Minimalistic UI
 
 ## Setup
 
@@ -59,9 +65,5 @@ To run this project locally, follow these steps:
    flutter run
    ```
 
-## Future Improvements
 
-- Implement a detailed view for GIFs with options to share and download.
-- Enhance the favorites feature with sorting and filtering options.
-- Implement user profiles with additional features such as settings and profile management.
 
