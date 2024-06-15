@@ -6,8 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:giphyapp/SearchGiphy/view/SearchGiphyScreen.dart';
 
-
-class SignIn_Controller extends GetxController {
+class LoginViewModel extends GetxController {
   Rx<TextEditingController> number = TextEditingController().obs;
   TextEditingController password = TextEditingController();
   bool isLoading1 = false;
@@ -23,7 +22,7 @@ class SignIn_Controller extends GetxController {
         final cred = await _auth.signInWithEmailAndPassword(
             email: email, password: passwords);
         Get.off(SearchGiphyScreen());
-        EasyLoading.showSuccess('Login successful!');
+        EasyLoading.showSuccess('Login Successful!');
         isLoading = false;
 
         number.value.clear();
@@ -50,6 +49,8 @@ class SignIn_Controller extends GetxController {
           password: password,
         );
         Get.off(SearchGiphyScreen());
+        EasyLoading.showSuccess('Sign-Up Successful!');
+
         print(cred.user!.uid);
 
         res = "success";

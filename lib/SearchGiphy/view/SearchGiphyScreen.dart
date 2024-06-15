@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:giphyapp/SearchGiphy/viewmodel/SearchGiphyViewModel.dart';
 import 'package:giphyapp/utils/AppConstants.dart';
 
+import '../../Authentication/Login/view/LoginScreen.dart';
 import '../../Favourites/view/FavouritesScreen.dart';
 
 final SearchGiphyViewModel giphyController = Get.put(SearchGiphyViewModel());
@@ -65,6 +67,35 @@ class SearchGiphyScreen extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(width: 5,),
+          GestureDetector(
+            onTap: () {
+              giphyController.giphyData.value = [];
+
+              Get.offAll(() => LoginScreen());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey.shade900, // Background color according to theme
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child:                   IconButton(
+                icon: const Icon(
+                  Icons.exit_to_app,
+                  color: Colors.blue, // Heart icon color
+                  size: 20,
+                ),
+                onPressed: () {
+                  giphyController.giphyData.value = [];
+
+                  Get.offAll(() => LoginScreen());
+                },
+                padding: EdgeInsets.zero,
+                constraints: BoxConstraints(), // Remove constraints to make it small
+              ),
+            ),
+          ),
+          SizedBox(width: 2,),
         ],
       ),
       body: Padding(
@@ -179,23 +210,26 @@ class SearchGiphyScreen extends StatelessWidget {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
-                                child: IconButton(
-                                  icon: Icon(
-                                    giphyController.checkFavourite(gifKey)
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: giphyController.checkFavourite(gifKey)
-                                        ? Colors.red
-                                        : Colors.grey,
-                                    size: 16,
-                                  ),
-                                  onPressed: () {
-                                    giphyController.addFavourite(gifKey);
-                                  },
-                                  padding: EdgeInsets.zero,
-                                  constraints:
-                                  BoxConstraints(), // Remove constraints to make it small
-                                ),
+                                child: Obx((){
+                                 return IconButton(
+                                    icon: Icon(
+                                      giphyController.checkFavourite(gifKey)
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: giphyController.checkFavourite(gifKey)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                      size: 16,
+                                    ),
+                                    onPressed: () {
+                                      giphyController.addFavourite(gifKey);
+                                      EasyLoading.showSuccess('Giphy Added to Favourites!');
+                                    },
+                                    padding: EdgeInsets.zero,
+                                    constraints:
+                                    BoxConstraints(), // Remove constraints to make it small
+                                  );
+                                }),
                               ),
                             ),
                           ],

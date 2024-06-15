@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import '../../../utils/widgets/CustomButton.dart';
+import '../../../utils/widgets/AuthButton.dart';
 import '../../../utils/widgets/Header.dart';
-import '../../SignUp/view/signup_page.dart';
-import '../viewmodel/SignIn_Controller.dart';
+import '../../SignUp/view/SignupScreen.dart';
+import '../viewmodel/LoginViewModel.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,11 +14,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final SignIn_Controller authService = Get.put(SignIn_Controller());
+  final LoginViewModel authService = Get.put(LoginViewModel());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SignIn_Controller>(
+    return GetBuilder<LoginViewModel>(
       builder: (auth) {
         return Scaffold(
           backgroundColor: Colors.blueGrey[900], // Set dark bluish background color

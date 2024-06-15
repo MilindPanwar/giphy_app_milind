@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:giphyapp/Authentication/Login/view/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -11,8 +12,6 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SearchGiphyViewModel giphyController =
-        Get.find(); // Retrieve the controller
 
     return Scaffold(
       backgroundColor: Colors.blueGrey[900],
@@ -23,6 +22,31 @@ class FavoritesScreen extends StatelessWidget {
         ),
 
         backgroundColor: Colors.blueGrey[800],
+        // actions: [
+        //   GestureDetector(
+        //     onTap: () {
+        //       Get.offAll(() => LoginScreen());
+        //     },
+        //     child: Container(
+        //       decoration: BoxDecoration(
+        //         color: Colors.blueGrey.shade900, // Background color according to theme
+        //         borderRadius: BorderRadius.circular(5.0),
+        //       ),
+        //       child:                   IconButton(
+        //         icon: const Icon(
+        //           Icons.exit_to_app,
+        //           color: Colors.blue, // Heart icon color
+        //           size: 20,
+        //         ),
+        //         onPressed: () {
+        //           Get.offAll(() => LoginScreen());
+        //         },
+        //         padding: EdgeInsets.zero,
+        //         constraints: BoxConstraints(), // Remove constraints to make it small
+        //       ),
+        //     ),
+        //   ),
+        // ],
         // Use primary color from theme
       ),
       body: Obx(() {

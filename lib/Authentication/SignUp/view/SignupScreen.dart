@@ -3,9 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:giphyapp/Authentication/Login/view/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../utils/widgets/CustomButton.dart';
+import '../../../utils/widgets/AuthButton.dart';
 import '../../../utils/widgets/Header.dart';
-import '../../Login/viewmodel/SignIn_Controller.dart';
+import '../../Login/viewmodel/LoginViewModel.dart';
 
 class SignupScreen extends StatefulWidget {
   SignupScreen({super.key});
@@ -17,7 +17,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SignIn_Controller>(
+    return GetBuilder<LoginViewModel>(
       builder: (auth) {
         return Scaffold(
           backgroundColor: Colors.blueGrey[900], // Set dark bluish background color
