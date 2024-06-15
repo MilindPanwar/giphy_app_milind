@@ -57,13 +57,9 @@ class SearchGiphyViewModel extends GetxController {
   }
 
   void callSearchGiphyApi(String query) async {
-    if (isLoading.value) return;
+    if (isLoading.value || searchQuery.value != query) return;
 
     isLoading.value = true;
-    searchQuery.value = query;
-    offset.value = 0;
-    giphyData.clear();
-    hasMore.value = true;
 
     try {
       final data = await api.searchGiphy(
@@ -71,14 +67,17 @@ class SearchGiphyViewModel extends GetxController {
       final giphyList = data.response.data['data'];
 
       if (giphyList is Iterable) {
-        giphyData.addAll(giphyList);
+        if (searchQuery.value != query) {
+          giphyData.value =  data.response.data['data'];
+        } else {
+          giphyData.addAll(giphyList);
+        }
       } else {
         print("Error: Expected data.response.data['data'] to be an Iterable");
       }
 
       offset.value += 25;
-      hasMore.value =
-          data.response.data['pagination']['total_count'] > offset.value;
+      hasMore.value = data.response.data['pagination']['total_count'] > offset.value;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -90,9 +89,7 @@ class SearchGiphyViewModel extends GetxController {
   }
 
   void loadMoreGifs() {
-    if (isLoading.value || !hasMore.value) return;
 
-    isLoading.value = true;
 
     try {
       if (searchQuery.isEmpty) {
