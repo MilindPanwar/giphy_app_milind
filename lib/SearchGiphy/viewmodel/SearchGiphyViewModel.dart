@@ -6,7 +6,6 @@ import 'package:giphyapp/utils/AppConstants.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class SearchGiphyViewModel extends GetxController {
-
   final api = SearchGiphyApi(Dio(BaseOptions(
       contentType: 'application/json', validateStatus: ((status) => true)))
     ..interceptors.add(PrettyDioLogger(
@@ -18,7 +17,6 @@ class SearchGiphyViewModel extends GetxController {
         compact: true,
         maxWidth: 90)));
 
-
   var giphyData = [].obs;
   var offset = 0.obs;
   var hasMore = true.obs;
@@ -26,13 +24,15 @@ class SearchGiphyViewModel extends GetxController {
   var errorMessage = ''.obs;
   var userInput = ''.obs;
 
-  final RxSet<String> favorites = <String>{}.obs;
+  RxSet<String> favorites = RxSet<String>();
+
 
   void callTrendingGiphyApi() async {
-    isLoading.value=true;
+    isLoading.value = true;
 
     try {
-      final data = await api.getTrendingGiphy(offset.value, AppConstants.giphyApiKey, 25);
+      final data = await api.getTrendingGiphy(
+          offset.value, AppConstants.giphyApiKey, 25);
       final giphyList = data.response.data['data'];
       if (giphyList is Iterable) {
         giphyData.addAll(giphyList);
@@ -43,17 +43,16 @@ class SearchGiphyViewModel extends GetxController {
       }
 
       offset.value += 25;
-      hasMore.value = data.response.data['pagination']['total_count'] > offset.value;
-      isLoading.value=false;
+      hasMore.value =
+          data.response.data['pagination']['total_count'] > offset.value;
+      isLoading.value = false;
     } catch (e) {
-      isLoading.value=false;
+      isLoading.value = false;
       if (kDebugMode) {
         print(e);
       }
       errorMessage.value = e.toString();
-
-    } finally {
-    }
+    } finally {}
   }
 
   final RxString searchQuery = ''.obs;
@@ -68,21 +67,21 @@ class SearchGiphyViewModel extends GetxController {
     hasMore.value = true;
 
     try {
-      final data = await api.searchGiphy(query, offset.value, AppConstants.giphyApiKey, 25);
-if(data.response.statusCode==200){
-  final giphyList = data.response.data['data'];
+      final data = await api.searchGiphy(
+          query, offset.value, AppConstants.giphyApiKey, 25);
+      if (data.response.statusCode == 200) {
+        final giphyList = data.response.data['data'];
 
-  if (giphyList is Iterable) {
-    giphyData.addAll(giphyList);
-  } else {
-    print("Error: Expected data.response.data['data'] to be an Iterable");
-  }
+        if (giphyList is Iterable) {
+          giphyData.addAll(giphyList);
+        } else {
+          print("Error: Expected data.response.data['data'] to be an Iterable");
+        }
 
-  offset.value += 25;
-  hasMore.value = data.response.data['pagination']['total_count'] > offset.value;
-}else{
-}
-
+        offset.value += 25;
+        hasMore.value =
+            data.response.data['pagination']['total_count'] > offset.value;
+      } else {}
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -93,5 +92,14 @@ if(data.response.statusCode==200){
     }
   }
 
-
+  void addFavourite(String giphyKey) {
+    if (favorites.contains(giphyKey)) {
+      favorites.remove(giphyKey);
+    } else {
+      favorites.add(giphyKey);
+    }
+  }
+  bool checkFavourite(String giphyKey) {
+    return favorites.contains(giphyKey);
+  }
 }
