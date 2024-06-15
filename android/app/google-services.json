@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "949227164224",
+    "project_id": "saffroneshwar-4b0d7",
+    "storage_bucket": "saffroneshwar-4b0d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949227164224:android:4b10c9f5202faf1cf005a5",
+        "android_client_info": {
+          "package_name": "com.example.giphyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDXsLugpMuoRHjJadTl34B-wT5bV9UbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949227164224:android:28f1aff84e83b733f005a5",
+        "android_client_info": {
+          "package_name": "com.example.saffroneshwar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDXsLugpMuoRHjJadTl34B-wT5bV9UbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949227164224:android:7d60fce5e0e66d66f005a5",
+        "android_client_info": {
+          "package_name": "com.giphyapp.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDXsLugpMuoRHjJadTl34B-wT5bV9UbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949227164224:android:070d8d2d5821f26bf005a5",
+        "android_client_info": {
+          "package_name": "com.saffroneshwar.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArDXsLugpMuoRHjJadTl34B-wT5bV9UbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "949227164224-hsnfcvds6257ogep4nshcj6qbtlkkcvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
