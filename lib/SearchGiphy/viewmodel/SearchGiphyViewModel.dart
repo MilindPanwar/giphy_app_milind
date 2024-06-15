@@ -22,18 +22,19 @@ class SearchGiphyViewModel extends GetxController {
   var hasMore = true.obs;
   var isLoading = false.obs;
   var errorMessage = ''.obs;
-  var userInput = ''.obs;
-
+  var searchQuery = ''.obs;
   RxSet<String> favorites = RxSet<String>();
 
-
   void callTrendingGiphyApi() async {
+    if (isLoading.value) return;
+
     isLoading.value = true;
 
     try {
       final data = await api.getTrendingGiphy(
           offset.value, AppConstants.giphyApiKey, 25);
       final giphyList = data.response.data['data'];
+
       if (giphyList is Iterable) {
         giphyData.addAll(giphyList);
       } else {
@@ -45,17 +46,15 @@ class SearchGiphyViewModel extends GetxController {
       offset.value += 25;
       hasMore.value =
           data.response.data['pagination']['total_count'] > offset.value;
-      isLoading.value = false;
     } catch (e) {
-      isLoading.value = false;
       if (kDebugMode) {
         print(e);
       }
       errorMessage.value = e.toString();
-    } finally {}
+    } finally {
+      isLoading.value = false;
+    }
   }
-
-  final RxString searchQuery = ''.obs;
 
   void callSearchGiphyApi(String query) async {
     if (isLoading.value) return;
@@ -69,24 +68,38 @@ class SearchGiphyViewModel extends GetxController {
     try {
       final data = await api.searchGiphy(
           query, offset.value, AppConstants.giphyApiKey, 25);
-      if (data.response.statusCode == 200) {
-        final giphyList = data.response.data['data'];
+      final giphyList = data.response.data['data'];
 
-        if (giphyList is Iterable) {
-          giphyData.addAll(giphyList);
-        } else {
-          print("Error: Expected data.response.data['data'] to be an Iterable");
-        }
+      if (giphyList is Iterable) {
+        giphyData.addAll(giphyList);
+      } else {
+        print("Error: Expected data.response.data['data'] to be an Iterable");
+      }
 
-        offset.value += 25;
-        hasMore.value =
-            data.response.data['pagination']['total_count'] > offset.value;
-      } else {}
+      offset.value += 25;
+      hasMore.value =
+          data.response.data['pagination']['total_count'] > offset.value;
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
       errorMessage.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void loadMoreGifs() {
+    if (isLoading.value || !hasMore.value) return;
+
+    isLoading.value = true;
+
+    try {
+      if (searchQuery.isEmpty) {
+        callTrendingGiphyApi();
+      } else {
+        callSearchGiphyApi(searchQuery.value);
+      }
     } finally {
       isLoading.value = false;
     }
@@ -99,6 +112,7 @@ class SearchGiphyViewModel extends GetxController {
       favorites.add(giphyKey);
     }
   }
+
   bool checkFavourite(String giphyKey) {
     return favorites.contains(giphyKey);
   }

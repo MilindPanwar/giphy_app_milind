@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:giphyapp/Authentication/Login/view/LoginScreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../utils/widgets/CustomButton.dart';
+import '../../../utils/widgets/Header.dart';
 import '../../Login/viewmodel/SignIn_Controller.dart';
 
-class signUp_page extends StatefulWidget {
-  signUp_page({super.key});
+class SignupScreen extends StatefulWidget {
+  SignupScreen({super.key});
 
   @override
-  State<signUp_page> createState() => _signUp_pageState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _signUp_pageState extends State<signUp_page> {
+class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SignIn_Controller>(
@@ -22,8 +24,9 @@ class _signUp_pageState extends State<signUp_page> {
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 40),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                headerForAuth(),
                 TextFormField(
                   controller: auth.number.value,
                   keyboardType: TextInputType.emailAddress,
@@ -108,6 +111,28 @@ class _signUp_pageState extends State<signUp_page> {
                   text_color: Colors.white,
                   width: Get.width * 0.4,
                   style: GoogleFonts.poppins(fontWeight: FontWeight.bold), // Apply Poppins font
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Have an account?",
+                        style: GoogleFonts.poppins(color: Colors.white), // Apply Poppins font with white color
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.off(LoginScreen());
+                          auth.number.value.clear();
+                          auth.password.clear();
+                        },
+                        child: Text(
+                          "Login",
+                          style: GoogleFonts.poppins(color: Colors.blueAccent), // Apply Poppins font with blue accent color
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

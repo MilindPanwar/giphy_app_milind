@@ -51,7 +51,7 @@ debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SearchGiphyScreen(),
+      home: LoginScreen(),
     );
   }}
 

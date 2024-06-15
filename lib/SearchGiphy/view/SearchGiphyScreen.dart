@@ -50,7 +50,7 @@ class SearchGiphyScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.favorite,
                       color: Colors.red, // Heart icon color
                       size: 20,
@@ -134,64 +134,75 @@ class SearchGiphyScreen extends StatelessWidget {
                   );
                 }
 
-                return GridView.builder(
-                  gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Number of columns in the grid
-                    crossAxisSpacing: 8.0,
-                    mainAxisSpacing: 8.0,
-                  ),
-                  itemCount: giphyController.giphyData.length,
-                  itemBuilder: (context, index) {
-                    final gif = giphyController.giphyData[index];
-                    final gifKey = gif['id'];
-                    return Card(
-                      color: Colors.blueGrey[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
-                              gif['images']['fixed_height']['url'],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5.0),
-                              ),
-                              child: IconButton(
-                                icon: Icon(
-                                  giphyController.checkFavourite(gifKey)
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: giphyController.checkFavourite(gifKey)
-                                      ? Colors.red
-                                      : Colors.grey,
-                                  size: 16,
-                                ),
-                                onPressed: () {
-                                  giphyController.addFavourite(gifKey);
-                                },
-                                padding: EdgeInsets.zero,
-                                constraints:
-                                BoxConstraints(), // Remove constraints to make it small
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (scrollInfo) {
+                    if (!giphyController.isLoading.value &&
+                        giphyController.hasMore.value &&
+                        scrollInfo.metrics.pixels ==
+                            scrollInfo.metrics.maxScrollExtent) {
+                      giphyController.loadMoreGifs();
+                    }
+                    return false;
                   },
+                  child: GridView.builder(
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Number of columns in the grid
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                    ),
+                    itemCount: giphyController.giphyData.length,
+                    itemBuilder: (context, index) {
+                      final gif = giphyController.giphyData[index];
+                      final gifKey = gif['id'];
+                      return Card(
+                        color: Colors.blueGrey[800],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Image.network(
+                                gif['images']['fixed_height']['url'],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                                child: IconButton(
+                                  icon: Icon(
+                                    giphyController.checkFavourite(gifKey)
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: giphyController.checkFavourite(gifKey)
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    size: 16,
+                                  ),
+                                  onPressed: () {
+                                    giphyController.addFavourite(gifKey);
+                                  },
+                                  padding: EdgeInsets.zero,
+                                  constraints:
+                                  BoxConstraints(), // Remove constraints to make it small
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 );
               }),
             ),

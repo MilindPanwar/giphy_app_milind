@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:giphyapp/utils/AppConstants.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import '../../../utils/widgets/CustomButton.dart';
+import '../../../utils/widgets/Header.dart';
 import '../../SignUp/view/signup_page.dart';
 import '../viewmodel/SignIn_Controller.dart';
 
@@ -25,8 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 40),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                headerForAuth(),
                 TextFormField(
                   controller: auth.number.value,
                   keyboardType: TextInputType.emailAddress,
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Get.off(signUp_page());
+                          Get.off(SignupScreen());
                           auth.number.value.clear();
                           auth.password.clear();
                         },
@@ -129,9 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                )
-,
-
+                ),
               ],
             ),
           ),

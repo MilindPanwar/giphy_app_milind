@@ -34,8 +34,8 @@ class FavoritesScreen extends StatelessWidget {
         if (uniqueFavoriteGifs.isEmpty) {
           return Center(
             child: Text(
-              'No favorite GIFs yet!',
-              style: GoogleFonts.poppins(),
+              'No Favourites Yet!',
+              style: GoogleFonts.poppins(color: Colors.blue.shade100),
             ),
           );
         } else {
