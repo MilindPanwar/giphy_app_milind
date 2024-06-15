@@ -18,6 +18,7 @@ class SearchGiphyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     giphyController.callTrendingGiphyApi();
+    TextEditingController searchController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.blueGrey[900],
@@ -110,39 +111,60 @@ class SearchGiphyScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            TextField(
-              cursorColor: Colors.blueAccent,
-              style: GoogleFonts.poppins(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: "Type to Search and Press ENTER",
-                hintStyle: GoogleFonts.poppins(color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    width: 1.0,
-                    color: Colors.grey,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: const BorderSide(
-                    width: 1.0,
-                    color: Colors.blueAccent,
-                  ),
-                ),
-                filled: true,
-                fillColor: Colors.blueGrey[700],
-              ),
-              onSubmitted: (query) {
-                giphyController.setSearchQuery(query);
-                if (query.isEmpty) {
-                  giphyController.callTrendingGiphyApi();
-                } else {
-                  giphyController.callSearchGiphyApi(query);
-                }
+Obx((){
+  return             TextField(
+    controller: searchController,
+    cursorColor: Colors.blueAccent,
+    style: GoogleFonts.poppins(color: Colors.white),
+    decoration: InputDecoration(
+      hintText: "Type to Search and Press ENTER",
+      hintStyle: GoogleFonts.poppins(color: Colors.grey),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(
+          width: 1.0,
+          color: Colors.grey,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(
+          width: 1.0,
+          color: Colors.blueAccent,
+        ),
+      ),
+      filled: true,
+      fillColor: Colors.blueGrey[700],
+      suffixIcon: giphyController.searchQuery.value.isNotEmpty
+          ? IconButton(
+        icon: const Icon(Icons.clear, color: Colors.grey),
+        onPressed: () {
+          searchController.clear();
 
-              },
-            ),
+          giphyController.setSearchQuery('');
+          giphyController.callTrendingGiphyApi();
+        },
+      )
+          : null,
+    ),
+    onChanged: (query) {
+      giphyController.setSearchQuery(query);
+      if (query.isEmpty) {
+        giphyController.callTrendingGiphyApi();
+      } else {
+        giphyController.callSearchGiphyApi(query);
+      }
+    },
+    onSubmitted: (query) {
+      giphyController.setSearchQuery(query);
+      if (query.isEmpty) {
+        giphyController.callTrendingGiphyApi();
+      } else {
+        giphyController.callSearchGiphyApi(query);
+      }
+    },
+  );
+}),
             const SizedBox(
               height: 10,
             ),
@@ -232,9 +254,8 @@ class SearchGiphyScreen extends StatelessWidget {
                                         size: 16,
                                       ),
                                       onPressed: () {
-                                        giphyController.addFavourite(gifKey);
-                                        EasyLoading.showSuccess(
-                                            'Giphy Added to Favourites!');
+                                        giphyController.addFavourite(gifKey, gif);
+
                                       },
                                       padding: EdgeInsets.zero,
                                       constraints:

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:giphyapp/SearchGiphy/data/api/SearchGiphyApi.dart';
@@ -23,7 +24,9 @@ class SearchGiphyViewModel extends GetxController {
   var isLoading = false.obs;
   var errorMessage = ''.obs;
   var searchQuery = ''.obs;
-  RxSet<String> favorites = RxSet<String>();
+  RxSet<String> listOfFavourites = RxSet<String>();
+  var favouriteGiphyData = [].obs;
+
 
   void callTrendingGiphyApi() async {
 
@@ -106,15 +109,22 @@ class SearchGiphyViewModel extends GetxController {
     giphyData.clear();
     hasMore.value = true;
   }
-  void addFavourite(String giphyKey) {
-    if (favorites.contains(giphyKey)) {
-      favorites.remove(giphyKey);
+  void addFavourite(String giphyKey, passedGif) {
+    if (listOfFavourites.contains(giphyKey)) {
+      favouriteGiphyData.remove(passedGif);
+      listOfFavourites.remove(giphyKey);
+      EasyLoading.showSuccess(
+          'Giphy Removed from Favourites!');
     } else {
-      favorites.add(giphyKey);
+
+      listOfFavourites.add(giphyKey);
+      favouriteGiphyData.add(passedGif);
+      EasyLoading.showSuccess(
+          'Giphy Added to Favourites!');
     }
   }
 
   bool checkFavourite(String giphyKey) {
-    return favorites.contains(giphyKey);
+    return listOfFavourites.contains(giphyKey);
   }
 }
