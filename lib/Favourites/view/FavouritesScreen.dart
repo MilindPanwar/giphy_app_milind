@@ -22,36 +22,11 @@ class FavoritesScreen extends StatelessWidget {
         ),
 
         backgroundColor: Colors.blueGrey[800],
-        // actions: [
-        //   GestureDetector(
-        //     onTap: () {
-        //       Get.offAll(() => LoginScreen());
-        //     },
-        //     child: Container(
-        //       decoration: BoxDecoration(
-        //         color: Colors.blueGrey.shade900, // Background color according to theme
-        //         borderRadius: BorderRadius.circular(5.0),
-        //       ),
-        //       child:                   IconButton(
-        //         icon: const Icon(
-        //           Icons.exit_to_app,
-        //           color: Colors.blue, // Heart icon color
-        //           size: 20,
-        //         ),
-        //         onPressed: () {
-        //           Get.offAll(() => LoginScreen());
-        //         },
-        //         padding: EdgeInsets.zero,
-        //         constraints: BoxConstraints(), // Remove constraints to make it small
-        //       ),
-        //     ),
-        //   ),
-        // ],
-        // Use primary color from theme
+
       ),
       body: Obx(() {
         // Retrieve only unique favorite GIFs based on ID
-        final List<dynamic> uniqueFavoriteGifs = giphyController.giphyData
+        final List<dynamic> uniqueFavoriteGifs = giphyController.favouriteGiphyData
             .where((gif) => giphyController.checkFavourite(gif['id']))
             .toList();
 

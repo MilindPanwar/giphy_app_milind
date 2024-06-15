@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:giphyapp/SearchGiphy/data/api/SearchGiphyApi.dart';
@@ -23,20 +24,23 @@ class SearchGiphyViewModel extends GetxController {
   var isLoading = false.obs;
   var errorMessage = ''.obs;
   var searchQuery = ''.obs;
-  RxSet<String> favorites = RxSet<String>();
+  RxSet<String> listOfFavourites = RxSet<String>();
+  var favouriteGiphyData = [].obs;
+
 
   void callTrendingGiphyApi() async {
+
     if (isLoading.value) return;
 
     isLoading.value = true;
 
     try {
       final data = await api.getTrendingGiphy(
-          offset.value, AppConstants.giphyApiKey, 25);
+          offset.value, AppConstants.giphyApiKey, 50);
       final giphyList = data.response.data['data'];
 
       if (giphyList is Iterable) {
-        giphyData.addAll(giphyList);
+        giphyData.value= data.response.data['data'] ;
       } else {
         if (kDebugMode) {
           print("Error: Expected data.response.data['data'] to be an Iterable");
@@ -57,13 +61,9 @@ class SearchGiphyViewModel extends GetxController {
   }
 
   void callSearchGiphyApi(String query) async {
-    if (isLoading.value) return;
+    if (isLoading.value || searchQuery.value != query) return;
 
     isLoading.value = true;
-    searchQuery.value = query;
-    offset.value = 0;
-    giphyData.clear();
-    hasMore.value = true;
 
     try {
       final data = await api.searchGiphy(
@@ -71,14 +71,17 @@ class SearchGiphyViewModel extends GetxController {
       final giphyList = data.response.data['data'];
 
       if (giphyList is Iterable) {
-        giphyData.addAll(giphyList);
+        if (searchQuery.value != query) {
+          giphyData.value =  data.response.data['data'];
+        } else {
+          giphyData.addAll(giphyList);
+        }
       } else {
         print("Error: Expected data.response.data['data'] to be an Iterable");
       }
 
       offset.value += 25;
-      hasMore.value =
-          data.response.data['pagination']['total_count'] > offset.value;
+      hasMore.value = data.response.data['pagination']['total_count'] > offset.value;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -90,10 +93,6 @@ class SearchGiphyViewModel extends GetxController {
   }
 
   void loadMoreGifs() {
-    if (isLoading.value || !hasMore.value) return;
-
-    isLoading.value = true;
-
     try {
       if (searchQuery.isEmpty) {
         callTrendingGiphyApi();
@@ -104,16 +103,28 @@ class SearchGiphyViewModel extends GetxController {
       isLoading.value = false;
     }
   }
-
-  void addFavourite(String giphyKey) {
-    if (favorites.contains(giphyKey)) {
-      favorites.remove(giphyKey);
+  void setSearchQuery(String query) {
+    searchQuery.value = query;
+    offset.value = 0;
+    giphyData.clear();
+    hasMore.value = true;
+  }
+  void addFavourite(String giphyKey, passedGif) {
+    if (listOfFavourites.contains(giphyKey)) {
+      favouriteGiphyData.remove(passedGif);
+      listOfFavourites.remove(giphyKey);
+      EasyLoading.showSuccess(
+          'Giphy Removed from Favourites!');
     } else {
-      favorites.add(giphyKey);
+
+      listOfFavourites.add(giphyKey);
+      favouriteGiphyData.add(passedGif);
+      EasyLoading.showSuccess(
+          'Giphy Added to Favourites!');
     }
   }
 
   bool checkFavourite(String giphyKey) {
-    return favorites.contains(giphyKey);
+    return listOfFavourites.contains(giphyKey);
   }
 }
